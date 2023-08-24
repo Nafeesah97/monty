@@ -19,15 +19,15 @@
  */
 typedef struct stack_s
 {
-        int n;
-        struct stack_s *prev;
-        struct stack_s *next;
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
 } stack_t;
 
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
- * B
+ *
  * @f: function to handle the opcode
  *
  * Description: opcode and its function
@@ -35,9 +35,22 @@ typedef struct stack_s
  */
 typedef struct instruction_s
 {
-        char *opcode;
-        void (*f)(stack_t **stack, unsigned int line_number);
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
+
+/**
+ * struct args_s - contains arguement
+ * @stream: steam from which file is read
+ * @line: line read from file or stream
+ * @l_num: position of opcode
+ * @token: broken strings
+ * @token_number: number of tokens
+ * @line_len: length of each opcode line
+ * @instruct: opcode
+ * @head: node list that holds data
+ * @stack_len: length of node
+ */
 
 typedef struct args_s
 {
@@ -55,6 +68,8 @@ typedef struct args_s
 extern int argc;
 extern char **argv;
 extern args_t *arguement;
+extern stack_t *stack;
+
 void check_arg(int argc);
 void failed_malloc(void);
 void free_arg(void);

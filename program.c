@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include "monty.h"
 
-args_t *arguement = NULL;
-
 /**
  * main - main function
  * @argc: number of arguements
@@ -14,6 +12,7 @@ args_t *arguement = NULL;
 int main(int argc, char **argv)
 {
 	size_t n;
+	args_t *arguement = NULL;
 
 	n = 0;
 	check_arg(argc);
@@ -32,5 +31,5 @@ int main(int argc, char **argv)
 	stream_closed();
 	free_arg();
 
-	return(0);
+	return (0);
 }
