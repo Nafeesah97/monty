@@ -151,7 +151,7 @@ void open_file(char *filename)
 
 void open_failed(char *filename)
 {
-	fprintf(stderr, "Error: Can't open file %s", filename);
+	fprintf(stderr, "Error: Can't open file %s\n", filename);
 	free_arg();
 	exit(EXIT_FAILURE);
 }
@@ -202,7 +202,7 @@ void which_instruct(void)
 	int i = 0;
 	instruction_t instructions[] = {{"push", &push}, {"pall", &pall},
 		{"pint", &pint}, {"pop", &pop}, {"swap", &swap}, {"add", &add},
-		{"nop", &nop}
+		{"nop", &nop}, {"sub", &sub}, {"mul", &mul}
 	};
 
 	if (arguement->token_number == 0)
