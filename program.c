@@ -14,6 +14,7 @@ args_t *arguement = NULL;
 int main(int argc, char **argv)
 {
 	size_t n;
+	stack_t *stack = NULL;
 
 	n = 0;
 	check_arg(argc);
@@ -26,7 +27,7 @@ int main(int argc, char **argv)
 		arguement->line_len = strlen(arguement->line);
 		tokenizer();
 		which_instruct();
-		action();
+		action(&stack);
 		free_token();
 	}
 	stream_closed();

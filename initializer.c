@@ -66,13 +66,11 @@ void invalid_ins(void)
  * action - to run instruction
  */
 
-void action(void)
+void action(stack_t **stack)
 {
-	stack_t *stack = NULL;
-
 	if (arguement->token_number == 0)
 		return;
-	arguement->instruct->f(&stack, arguement->l_num);
+	arguement->instruct->f(stack, arguement->l_num);
 }
 
 /**
@@ -81,8 +79,8 @@ void action(void)
 
 void tokenizer(void)
 {
-	int i = 0;
-	char *delim = " \n", *token = NULL, *copied_line = NULL;
+	char *delim = " \n";
+	char *token = NULL, *copied_line = NULL;
 
 	copied_line = malloc(sizeof(char) * arguement->line_len);
 	if (copied_line == NULL)
@@ -100,15 +98,16 @@ void tokenizer(void)
 	token = strtok(copied_line, delim);
 	while (token)
 	{
-		arguement->token[i] = malloc(sizeof(char) *
-				(strlen(token) + 1));
-		if (arguement->token[i] == NULL)
+		arguement->token_number = 0;
+		arguement->token[arguement->token_number] = malloc(sizeof(char)
+				* (strlen(token) + 1));
+		if (arguement->token[arguement->token_number] == NULL)
 			failed_malloc();
-		strcpy(arguement->token[i], token);
+		strcpy(arguement->token[arguement->token_number], token);
 		token = strtok(NULL, delim);
-		i++;
+		arguement->token_number++;
 	}
-	arguement->token[i] = NULL;
+	arguement->token[arguement->token_number] = NULL;
 	free(copied_line);
 }
 
