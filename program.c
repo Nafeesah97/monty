@@ -5,6 +5,7 @@
 args_t *arguement = NULL;
 
 /**
+ * OB
  * main - main function
  * @argc: number of arguements
  * @argv: arguements

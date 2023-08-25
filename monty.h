@@ -68,7 +68,6 @@ typedef struct args_s
 extern int argc;
 extern char **argv;
 extern args_t *arguement;
-extern stack_t *stack;
 
 void check_arg(int argc);
 void failed_malloc(void);
@@ -76,7 +75,6 @@ void free_arg(void);
 void initialize_arg(void);
 void open_file(char *filename);
 void open_failed(char *filename);
-void tokenizer(void);
 void tokenizer(void);
 void which_instruct(void);
 void invalid_ins(void);
