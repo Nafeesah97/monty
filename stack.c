@@ -12,7 +12,7 @@ void push(stack_t **stack, unsigned int line_num)
 	if (arguement->token_number <= 1 || _num(arguement->token[1]) == 0)
 	{
 		free_arg();
-		fprintf(stderr, "L%d: usage: push integer", line_num);
+		fprintf(stderr, "L%d: usage: push integer\n", line_num);
 		exit(EXIT_FAILURE);
 	}
 
@@ -32,7 +32,7 @@ void push(stack_t **stack, unsigned int line_num)
 	arguement->stack_len += 1;
 }
 
-/**
+/**BOB
  * pop - delete the last node
  * @stack: node list
  * @line_num: position of line
@@ -46,7 +46,7 @@ void pop(stack_t **stack, unsigned int line_num)
 
 	if (arguement->head == NULL)
 	{
-		fprintf(stderr, "L%d: can't pop an empty stack", line_num);
+		fprintf(stderr, "L%d: can't pop an empty stack\n", line_num);
 		free_all_arg();
 		exit(EXIT_FAILURE);
 	}

@@ -11,7 +11,7 @@ void free_token(void)
 	if (arguement->token == NULL)
 		return;
 
-	while (arguement->token[i])
+	while (arguement->token[i] != NULL)
 	{
 		free(arguement->token[i]);
 		i++;
