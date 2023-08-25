@@ -54,7 +54,7 @@ void which_instruct(void)
 
 void invalid_ins(void)
 {
-	fprintf(stderr, "L%d: unknown instruction %s", arguement->l_num,
+	fprintf(stderr, "L%d: unknown instruction %s\n", arguement->l_num,
 			arguement->token[0]);
 	stream_closed();
 	free_token();
@@ -66,8 +66,10 @@ void invalid_ins(void)
  * action - to run instruction
  */
 
-void action(stack_t **stack)
+void action(void)
 {
+	stack_t **stack = NULL;
+
 	if (arguement->token_number == 0)
 		return;
 	arguement->instruct->f(stack, arguement->l_num);
@@ -80,7 +82,8 @@ void action(stack_t **stack)
 void tokenizer(void)
 {
 	char *delim = " \n";
-	char *token = NULL, *copied_line = NULL;
+	char *token = NULL;
+	char *copied_line = NULL;
 
 	copied_line = malloc(sizeof(char) * arguement->line_len);
 	if (copied_line == NULL)
@@ -110,4 +113,3 @@ void tokenizer(void)
 	arguement->token[arguement->token_number] = NULL;
 	free(copied_line);
 }
-

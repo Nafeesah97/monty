@@ -82,7 +82,7 @@ void which_instruct(void);
 void invalid_ins(void);
 void stream_closed(void);
 void free_token(void);
-void action(stack_t **stack);
+void action(void);
 void free_head(void);
 int _num(char *str);
 void free_stack(stack_t *head);
