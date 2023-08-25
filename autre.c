@@ -15,38 +15,14 @@ int _num(char *str)
 }
 
 /**
- * tokenizer - to token opcode
+ * check_arg - To check if arg is 2
+ * @argc: number of arguments
  */
 
-void tokenizer(void)
+void check_arg(int argc)
 {
-	int i = 0;
-	char *delim = " \n", *token = NULL, *copied_line = NULL;
-
-	copied_line = malloc(sizeof(char) * arguement->line_len);
-	if (copied_line == NULL)
-		failed_malloc();
-	strcpy(copied_line, arguement->line);
-	token = strtok(copied_line, delim);
-	while (token)
-	{
-		arguement->token_number++;
-		token = strtok(NULL, delim);
-	}
-	arguement->token = malloc(sizeof(char *) *
-			(arguement->token_number + 1));
-	strcpy(copied_line, arguement->line);
-	token = strtok(copied_line, delim);
-	while (token)
-	{
-		arguement->token[i] = malloc(sizeof(char) *
-			(strlen(token) + 1));
-		if (arguement->token[i] == NULL)
-			failed_malloc();
-		strcpy(arguement->token[i], token);
-		token = strtok(NULL, delim);
-		i++;
-	}
-	arguement->token[i] = NULL;
-	free(copied_line);
+	if (argc == 2)
+		return;
+	fprintf(stderr, "USAGE: monty file\n");
+	exit(EXIT_FAILURE);
 }
