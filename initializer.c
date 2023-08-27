@@ -162,13 +162,14 @@ void open_failed(char *filename)
 
 void tokenizer(void)
 {
-	int i = 0;
-	char *delim = " \n", *token = NULL, *copied_line = NULL;
+	int i = 0, j;
+	char *delim = " \t\n", *token = NULL, *copied_line = NULL;
+	char *token_copy = NULL;
 
-	copied_line = malloc(sizeof(char) * arguement->line_len);
+	copied_line = strdup(arguement->line);
 	if (copied_line == NULL)
 		failed_malloc();
-	strcpy(copied_line, arguement->line);
+
 	token = strtok(copied_line, delim);
 	while (token)
 	{
@@ -176,21 +177,29 @@ void tokenizer(void)
 		token = strtok(NULL, delim);
 	}
 	arguement->token = malloc(sizeof(char *) *
-			(arguement->token_number + 1));
-	strcpy(copied_line, arguement->line);
-	token = strtok(copied_line, delim);
-	while (token)
+			(arguement->token_number));
+	if (!arguement->token)
+		failed_malloc();
+	token_copy =strdup(arguement->line);
+	if (!token_copy)
+		failed_malloc();
+	token = strtok(token_copy, delim);
+	while (token != NULL)
 	{
-		arguement->token[i] = malloc(sizeof(char) *
-				(strlen(token) + 1));
+		arguement->token[i] = strdup(token);
 		if (arguement->token[i] == NULL)
 			failed_malloc();
-		strcpy(arguement->token[i], token);
-		token = strtok(NULL, delim);
 		i++;
+		token = strtok(NULL, delim);
 	}
-	arguement->token[i] = NULL;
+	j = 0;
+	while (j < arguement->token_number)
+	{
+		printf("arguement->token[%d] = %s\n", j, arguement->token[j]);
+		j++;
+	}
 	free(copied_line);
+	free(token_copy);
 }
 
 /**
@@ -205,7 +214,8 @@ void which_instruct(void)
 		{"nop", &nop}, {"sub", &sub}, {"mul", &mul}
 	};
 
-	if (arguement->token_number == 0)
+	printf("token_number = %d token is %s\n", arguement->token_number, arguement->token[0]);
+	if (arguement->token_number == 0 || arguement->token == NULL)
 		return;
 	for (; instructions[i].opcode != NULL; i++)
 	{
@@ -225,7 +235,7 @@ void which_instruct(void)
 
 void invalid_ins(void)
 {
-	fprintf(stderr, "L%d: unknown instruction %s", arguement->l_num,
+	fprintf(stderr, "L%d: unknown instruction %s\n", arguement->l_num,
 			arguement->token[0]);
 	stream_closed();
 	free_token();
