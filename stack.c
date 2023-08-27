@@ -12,7 +12,7 @@ void push(stack_t **stack, unsigned int line_num)
 	if (arguement->token_number <= 1 || _num(arguement->token[1]) == 0)
 	{
 		free_arg();
-		fprintf(stderr, "L%d: usage: push integer", line_num);
+		fprintf(stderr, "L%d: usage: push integer\n", line_num);
 		exit(EXIT_FAILURE);
 	}
 

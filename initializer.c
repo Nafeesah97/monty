@@ -38,12 +38,12 @@ void free_arg(void)
 		free(arguement->instruct);
 		arguement->instruct = NULL;
 	}
+	free_head();
 	if (arguement->line)
 	{
 		free(arguement->line);
 		arguement->line = NULL;
 	}
-	free_head();
 
 	free(arguement);
 }
@@ -81,7 +81,11 @@ void free_all_arg(void)
 {
 	stream_closed();
 	free_token();
-	free_arg();
+	if (arguement != NULL)
+	{
+		free_arg();
+		arguement = NULL;
+	}
 }
 
 
@@ -108,7 +112,7 @@ void initialize_arg(void)
 	arguement = malloc(sizeof(args_t));
 	if (arguement == NULL)
 		failed_malloc();
-	
+
 	arguement->instruct = malloc(sizeof(instruction_t));
 	if (arguement->instruct == NULL)
 		failed_malloc();
@@ -128,20 +132,14 @@ void initialize_arg(void)
 
 void open_file(char *filename)
 {
-	int  fd;
+	FILE *stream;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	stream = fopen(filename, "r");
+	if (stream == NULL)
 	{
 		open_failed(filename);
 	}
-	
-	arguement->stream = fdopen(fd, "r");
-	if (arguement->stream == NULL)
-	{
-		close(fd);
-		open_failed(filename);
-	}
+	arguement->stream = stream;
 }
 
 /**
@@ -164,42 +162,40 @@ void tokenizer(void)
 {
 	int i = 0, j;
 	char *delim = " \t\n", *token = NULL, *copied_line = NULL;
-	char *token_copy = NULL;
 
 	copied_line = strdup(arguement->line);
 	if (copied_line == NULL)
 		failed_malloc();
 
+	arguement->token_number = 0;
 	token = strtok(copied_line, delim);
 	while (token)
 	{
 		arguement->token_number++;
 		token = strtok(NULL, delim);
 	}
-	arguement->token = malloc(sizeof(char *) *
-			(arguement->token_number));
-	if (!arguement->token)
-		failed_malloc();
-	token_copy =strdup(arguement->line);
-	if (!token_copy)
-		failed_malloc();
-	token = strtok(token_copy, delim);
+        arguement->token = malloc(sizeof(char *) *
+                        (arguement->token_number + 1));
+	strcpy(copied_line, arguement->line);
+	token = strtok(copied_line, delim);
 	while (token != NULL)
 	{
-		arguement->token[i] = strdup(token);
+		arguement->token[i] = malloc(sizeof(char) *
+				(strlen(token) + 1));
 		if (arguement->token[i] == NULL)
 			failed_malloc();
-		i++;
+		strcpy(arguement->token[i], token);
 		token = strtok(NULL, delim);
+		i++;
 	}
+	arguement->token[i] = NULL;
 	j = 0;
-	while (j < arguement->token_number)
+	while (arguement->token[j] != NULL)
 	{
 		printf("arguement->token[%d] = %s\n", j, arguement->token[j]);
 		j++;
 	}
 	free(copied_line);
-	free(token_copy);
 }
 
 /**
@@ -208,15 +204,23 @@ void tokenizer(void)
 
 void which_instruct(void)
 {
-	int i = 0;
+	unsigned int i = 0;
 	instruction_t instructions[] = {{"push", &push}, {"pall", &pall},
 		{"pint", &pint}, {"pop", &pop}, {"swap", &swap}, {"add", &add},
-		{"nop", &nop}, {"sub", &sub}, {"mul", &mul}
+		{"nop", &nop}, {"sub", &sub}, {"mul", &mul}, {NULL, NULL}
 	};
 
 	printf("token_number = %d token is %s\n", arguement->token_number, arguement->token[0]);
 	if (arguement->token_number == 0 || arguement->token == NULL)
 		return;
+
+	if (arguement->token[0][0] == '#')
+	{
+		arguement->instruct->opcode = "nop";
+		arguement->instruct->f = nop;
+		return;
+	}
+
 	for (; instructions[i].opcode != NULL; i++)
 	{
 		if (strcmp(instructions[i].opcode, arguement->token[0]) == 0)
@@ -249,10 +253,11 @@ void invalid_ins(void)
 
 void stream_closed(void)
 {
-	if (arguement->stream == NULL)
-		return;
-	fclose(arguement->stream);
-	arguement->stream = NULL;
+	if (arguement->stream != NULL)
+	{
+		fclose(arguement->stream);
+		arguement->stream = NULL;
+	}
 }
 
 /**
@@ -266,7 +271,7 @@ void free_token(void)
 	if (arguement->token == NULL)
 		return;
 
-	while (arguement->token[i])
+	while (arguement->token[i] != NULL)
 	{
 		free(arguement->token[i]);
 		i++;

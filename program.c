@@ -32,6 +32,7 @@ int main(int argc, char **argv)
 	}
 	stream_closed();
 	free_arg();
+	fclose(arguement->stream);
 
 	return (0);
 }
