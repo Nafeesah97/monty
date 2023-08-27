@@ -160,7 +160,7 @@ void open_failed(char *filename)
 
 void tokenizer(void)
 {
-	int i = 0, j;
+	int i = 0;
 	char *delim = " \t\n", *token = NULL, *copied_line = NULL;
 
 	copied_line = strdup(arguement->line);
@@ -189,12 +189,7 @@ void tokenizer(void)
 		i++;
 	}
 	arguement->token[i] = NULL;
-	j = 0;
-	while (arguement->token[j] != NULL)
-	{
-		printf("arguement->token[%d] = %s\n", j, arguement->token[j]);
-		j++;
-	}
+
 	free(copied_line);
 }
 
@@ -210,7 +205,6 @@ void which_instruct(void)
 		{"nop", &nop}, {"sub", &sub}, {"mul", &mul}, {NULL, NULL}
 	};
 
-	printf("token_number = %d token is %s\n", arguement->token_number, arguement->token[0]);
 	if (arguement->token_number == 0 || arguement->token == NULL)
 		return;
 
