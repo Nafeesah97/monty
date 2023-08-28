@@ -176,7 +176,7 @@ void sub(stack_t **stack, unsigned int line_num)
                 exit(EXIT_FAILURE);
         }
 
-        res = arguement->head->n - arguement->head->next->n;
+        res = arguement->head->next->n - arguement->head->n;
         temp = arguement->head;
 	arguement->head = arguement->head->next;
         if (arguement->head != NULL)
