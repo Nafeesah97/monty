@@ -303,3 +303,32 @@ void nop(stack_t **stack, unsigned int line_num)
 	(void) stack;
 	(void) line_num;
 }
+
+/**
+ * pchar - prints the char at the top of the stack
+ * @stack: the node list
+ * @line_num: the position of opcode
+ */
+
+void pchar(stack_t **stack, unsigned int line_num)
+{
+	stack_t *temp;
+	(void) stack;
+
+	if (arguement->head == NULL)
+	{
+		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_num);
+                free_all_arg();
+                exit(EXIT_FAILURE);
+        }
+
+	temp = arguement->head;
+	if (temp->n < 0 || temp->n > 127)
+	{
+		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_num);
+                free_all_arg();
+                exit(EXIT_FAILURE);
+        }
+	putchar(temp->n);
+	putchar('\n');
+}
