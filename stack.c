@@ -350,7 +350,7 @@ void pstr(stack_t **stack, unsigned int line_num)
 	{
 		if (temp->n < 0 || temp->n > 127)
 			break;
-		printf("%c", temp);
+		printf("%c", temp->n);
 		temp = temp->next;
 	}
 	printf("\n");
