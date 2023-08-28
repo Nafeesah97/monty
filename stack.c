@@ -348,7 +348,7 @@ void pstr(stack_t **stack, unsigned int line_num)
 	temp = arguement->head;
 	while (temp != NULL)
 	{
-		if (temp->n < 0 || temp->n > 127)
+		if (temp->n < 0 || temp->n > 127 || temp->n == 0)
 			break;
 		printf("%c", temp->n);
 		temp = temp->next;
