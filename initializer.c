@@ -202,7 +202,8 @@ void which_instruct(void)
 	unsigned int i = 0;
 	instruction_t instructions[] = {{"push", &push}, {"pall", &pall},
 		{"pint", &pint}, {"pop", &pop}, {"swap", &swap}, {"add", &add},
-		{"nop", &nop}, {"sub", &sub}, {"mul", &mul}, {NULL, NULL}
+		{"nop", &nop}, {"sub", &sub}, {"mul", &mul}, {"div", &_div},
+		{NULL, NULL}
 	};
 
 	if (arguement->token_number == 0 || arguement->token == NULL)
