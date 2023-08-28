@@ -254,6 +254,43 @@ void _div(stack_t **stack, unsigned int line_num)
 	arguement->stack_len -= 1;
 }
 
+/**
+ * mod -  rest of div the second top element of the stack by the top element
+ * @stack: the node list
+ * @line_num: the psition of opcode
+ */
+
+void mod(stack_t **stack, unsigned int line_num)
+{
+        stack_t *temp;
+        int res;
+        (void) stack;
+
+        if (arguement->head == NULL || arguement->head->next == NULL)
+        {
+                fprintf(stderr, "L%d: can't mod, stack too short\n", line_num);
+                free_all_arg();
+                exit(EXIT_FAILURE);
+        }
+
+        if (arguement->head->n == 0)
+        {
+                fprintf(stderr, "L%d: division by zero\n", line_num);
+                free_all_arg();
+                exit(EXIT_FAILURE);
+        }
+
+        res = arguement->head->next->n % arguement->head->n;
+        temp = arguement->head;
+        arguement->head = arguement->head->next;
+        if (arguement->head != NULL)
+                arguement->head->prev = NULL;
+        free(temp);
+
+        arguement->head->n = res;
+        arguement->stack_len -= 1;
+}
+
 
 /**
  * nop - it does nothing
