@@ -332,3 +332,26 @@ void pchar(stack_t **stack, unsigned int line_num)
 	putchar(temp->n);
 	putchar('\n');
 }
+
+/**
+ * pstr -  prints the string starting at the top of the stack,
+ * @stack: node list
+ * @liine_num: position of opcode
+ */
+
+void pstr(stack_t **stack, unsigned int line_num)
+{
+        stack_t *temp;
+        (void) stack;
+	(void) line_num;
+
+	temp = arguement->head;
+	while (temp != NULL)
+	{
+		if (temp->n < 0 || temp->n > 127)
+			break;
+		printf("%c", temp);
+		temp = temp->next;
+	}
+	printf("\n");
+}
